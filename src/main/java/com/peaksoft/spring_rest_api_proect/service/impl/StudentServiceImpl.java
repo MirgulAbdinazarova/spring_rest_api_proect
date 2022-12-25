@@ -46,11 +46,11 @@ public class StudentServiceImpl  implements StudentService {
 
     @Override
     public StudentResponse saveStudent(Long groupId, StudentRequest studentRequest) {
-        Student student = studentRequestConverter.create(studentRequest);
         Group group = groupRepository.findById(groupId).get();
+        Student student = studentRequestConverter.create(studentRequest);
         student.setGroup(group);
         group.addStudent(student);
-        groupRepository.save(group);
+        studentRepository.save(student);
         return studentResponseConverter.viewStudent(student);
     }
 
@@ -58,7 +58,7 @@ public class StudentServiceImpl  implements StudentService {
     public StudentResponse updateStudent(Long studentId, StudentRequest studentRequest) {
         Student student = studentRepository.findById(studentId).get();
         studentRequestConverter.update(student,studentRequest);
-        return studentResponseConverter.viewStudent(student);
+        return studentResponseConverter.viewStudent(studentRepository.save(student));
     }
 
     @Override

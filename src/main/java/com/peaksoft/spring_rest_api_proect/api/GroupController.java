@@ -4,6 +4,7 @@ import com.peaksoft.spring_rest_api_proect.dto.GroupRequest;
 import com.peaksoft.spring_rest_api_proect.dto.GroupResponse;
 import com.peaksoft.spring_rest_api_proect.entities.Group;
 import com.peaksoft.spring_rest_api_proect.service.GroupService;
+import com.peaksoft.spring_rest_api_proect.service.StudentService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -17,6 +18,7 @@ import java.util.List;
 public class GroupController {
 
     private final GroupService groupService;
+    private final StudentService studentService;
     @PostMapping("/{courseId}")
     public GroupResponse saveGroup(@PathVariable Long courseId,@RequestBody GroupRequest groupRequest) {
         return groupService.saveGroup(courseId,groupRequest);
@@ -46,6 +48,12 @@ public class GroupController {
      return  groupService.updateGroupById(groupId,groupRequest);
     }
 
+    @PostMapping("/{studentId}/assign/{groupId}")
+    public GroupResponse assignStudentToGroup(@PathVariable Long studentId,
+                                              @PathVariable Long groupId) {
+        studentService.assignStudentToGroup(studentId,groupId);
+        return  groupService.getGroupById(groupId);
+    }
 
 
 }
