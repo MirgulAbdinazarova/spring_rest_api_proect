@@ -41,26 +41,36 @@ public class StudentServiceImpl  implements StudentService {
 
     @Override
     public List<StudentResponse> getAllStudents(Long groupId) {
-        return null;
+        return studentResponseConverter.view(studentRepository.getAllStudentByGroupId(groupId));
     }
 
     @Override
     public StudentResponse saveStudent(Long groupId, StudentRequest studentRequest) {
-        return null;
+        Student student = studentRequestConverter.create(studentRequest);
+        Group group = groupRepository.findById(groupId).get();
+        student.setGroup(group);
+        group.addStudent(student);
+        groupRepository.save(group);
+        return studentResponseConverter.viewStudent(student);
     }
 
     @Override
     public StudentResponse updateStudent(Long studentId, StudentRequest studentRequest) {
-        return null;
+        Student student = studentRepository.findById(studentId).get();
+        studentRequestConverter.update(student,studentRequest);
+        return studentResponseConverter.viewStudent(student);
     }
 
     @Override
     public StudentResponse deleteStudentById(Long studentId) {
-        return null;
+        Student student = studentRepository.findById(studentId).get();
+        studentRepository.delete(student);
+        return studentResponseConverter.viewStudent(student);
     }
 
     @Override
     public StudentResponse getStudentById(Long studentId) {
-        return null;
+        Student student = studentRepository.findById(studentId).get();
+        return studentResponseConverter.viewStudent(student);
     }
 }
