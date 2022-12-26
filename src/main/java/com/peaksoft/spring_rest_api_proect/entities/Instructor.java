@@ -1,11 +1,13 @@
 package com.peaksoft.spring_rest_api_proect.entities;
 
-import jakarta.persistence.*;
+
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import javax.persistence.*;
+import javax.validation.constraints.Email;
 
-import static jakarta.persistence.CascadeType.*;
+import static javax.persistence.CascadeType.*;
 
 @Entity
 @Getter
@@ -19,22 +21,36 @@ public class Instructor {
             sequenceName = "instructor_seq",
             allocationSize = 1)
     private Long id;
-    @Column(name = "first_name")
+    @Column(name = "first_name",nullable = false)
 
     private String firstName;
 
-    @Column(name = "last_name")
+    @Column(name = "last_name",nullable = false)
     private String lastName;
 
-    @Column(name = "phone_number")
-    private int phoneNumber;
-
+    @Column(name = "phone_number",nullable = false)
+    private String phoneNumber;
+    @Email
     @Column(name = "email")
     private String email;
+
+    private String password;
 
     @Column(name = "specialization")
     private String specialization;
 
+    private Long count=0L;
+
     @ManyToOne(cascade = {DETACH,REFRESH,MERGE},fetch = FetchType.EAGER)
     private Course course;
+
+    public void plus() {
+        count++;
+    }
+
+    public void minus() {
+        count--;
+    }
+
+
 }

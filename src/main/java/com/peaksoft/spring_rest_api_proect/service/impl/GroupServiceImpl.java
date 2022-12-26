@@ -4,11 +4,15 @@ import com.peaksoft.spring_rest_api_proect.converter.GroupRequestConverter;
 import com.peaksoft.spring_rest_api_proect.converter.GroupResponseConverter;
 import com.peaksoft.spring_rest_api_proect.dto.GroupRequest;
 import com.peaksoft.spring_rest_api_proect.dto.GroupResponse;
+import com.peaksoft.spring_rest_api_proect.dto.UserResponse;
 import com.peaksoft.spring_rest_api_proect.entities.Course;
 import com.peaksoft.spring_rest_api_proect.entities.Group;
+import com.peaksoft.spring_rest_api_proect.entities.Instructor;
+import com.peaksoft.spring_rest_api_proect.entities.Student;
 import com.peaksoft.spring_rest_api_proect.repo.CourseRepository;
 import com.peaksoft.spring_rest_api_proect.repo.GroupRepository;
 import com.peaksoft.spring_rest_api_proect.service.GroupService;
+import com.peaksoft.spring_rest_api_proect.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -20,6 +24,8 @@ public class GroupServiceImpl implements GroupService {
 
     private final GroupRepository groupRepository;
     private  final CourseRepository courseRepository;
+
+    private final UserService userService;
 
     private final GroupRequestConverter groupRequestConverter;
 
@@ -38,6 +44,25 @@ public class GroupServiceImpl implements GroupService {
     @Override
     public GroupResponse deleteGroupById(Long groupId) {
        Group group = groupRepository.findById(groupId).get();
+
+        List<Student> students = group.getStudents();
+        Long count = students.stream().count();
+        for (Course course : group.getCourses()) {
+            Long count1 = course.getCompany().getCount();
+            count1 -= count;
+            course.getCompany().setCount(count1);
+            for (Instructor instructor : course.getInstructors()) {
+                Long count2 = instructor.getCount();
+                count2 -= count;
+                instructor.setCount(count2);
+            }
+        }
+        for (Student student : group.getStudents()) {
+            UserResponse user = userService.findUserByEmail(student.getEmail());
+            userService.deleteUserById(Long.valueOf(user.getId()));
+        }
+        //
+
        groupRepository.delete(group);
        return groupResponseConverter.viewGroup(group);
     }

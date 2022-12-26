@@ -9,20 +9,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class InstructorResponse {
+public class UserResponse {
 
-    private Long id;
-
-    private String firstName;
-
-    private String lastName;
-
-    private String phoneNumber;
+    private String id;
 
     private String email;
 
-    private String specialization;
-
-
-    private Long count;
+    private String firstName;
 }

@@ -11,4 +11,7 @@ import java.util.List;
 public interface StudentRepository extends JpaRepository<Student, Long> {
     @Query("select s from Student s where s.group.id=:groupId")
     List<Student> getAllStudentByGroupId(Long groupId);
+
+    @Query("select s from Student s where s.email = :email")
+    Student findByEmail(String email);
 }

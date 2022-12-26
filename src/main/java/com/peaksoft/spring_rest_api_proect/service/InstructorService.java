@@ -12,7 +12,7 @@ public interface InstructorService {
 
     List<InstructorResponse> getAllInstructors(Long courseId);
 
-    InstructorResponse saveInstructor(Long courseId, InstructorRequest instructorRequest);
+    InstructorResponse saveInstructor(Long courseId, InstructorRequest instructorRequest) throws IOException;
 
     InstructorResponse updateInstructor(Long instructorId,InstructorRequest instructorRequest);
 

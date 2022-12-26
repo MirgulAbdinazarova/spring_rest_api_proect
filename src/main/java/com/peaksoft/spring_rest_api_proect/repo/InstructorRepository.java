@@ -11,4 +11,9 @@ import java.util.List;
 public interface InstructorRepository extends JpaRepository<Instructor, Long> {
     @Query("select i from Instructor i where i.course.id=:courseId")
     List<Instructor> getAllInstructorsByCourseId(Long courseId);
+
+    @Query("select i from Instructor i where i.email = :email")
+    Instructor findByEmail(String email);
+
+
 }

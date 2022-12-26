@@ -3,6 +3,7 @@ package com.peaksoft.spring_rest_api_proect.service;
 import com.peaksoft.spring_rest_api_proect.dto.StudentRequest;
 import com.peaksoft.spring_rest_api_proect.dto.StudentResponse;
 
+import java.io.IOException;
 import java.util.List;
 
 public interface StudentService {
@@ -11,7 +12,7 @@ public interface StudentService {
 
     List<StudentResponse> getAllStudents(Long groupId);
 
-    StudentResponse saveStudent(Long groupId, StudentRequest studentRequest);
+    StudentResponse saveStudent(Long groupId, StudentRequest studentRequest) throws IOException;
 
     StudentResponse updateStudent(Long studentId,StudentRequest studentRequest);
 

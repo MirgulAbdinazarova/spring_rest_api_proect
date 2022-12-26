@@ -1,10 +1,9 @@
 package com.peaksoft.spring_rest_api_proect.dto;
 
-import com.peaksoft.spring_rest_api_proect.entities.Course;
+
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
 
 @Getter
 @Setter
