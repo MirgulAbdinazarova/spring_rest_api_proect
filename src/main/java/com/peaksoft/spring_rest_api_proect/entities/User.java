@@ -26,17 +26,14 @@ public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     private String email;
-
     private String password;
-
     private String firstName;
 
     @ManyToMany(targetEntity = Role.class, cascade = {MERGE, REFRESH, DETACH, PERSIST}, fetch = EAGER)
     @JoinTable(name = "users_roles",
             joinColumns = @JoinColumn(name = "user_id"),
-            inverseJoinColumns = @JoinColumn(name = "role_idi"))
+            inverseJoinColumns = @JoinColumn(name = "role_id"))
     private List<Role> roles;
 
     public User(String email, String password, String firstName) {
